@@ -5,3 +5,5 @@ stderr-to-file:
 stdout-and-stderr-to-file:
 	# &0は標準入力, &1は標準出力, $2は標準エラー出力
 	ruby stdout-and-stderr.rb 1> out/out-and-err.txt 2>&1
+stdin-from-file:
+	ruby stdin.rb 0< in/nyan.txt
