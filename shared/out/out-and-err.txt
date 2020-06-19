@@ -1,0 +1,2 @@
+mew on stderr
+mew on stdout
