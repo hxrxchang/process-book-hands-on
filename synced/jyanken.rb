@@ -1,16 +1,17 @@
 require "socket"
 
 listening_socket = TCPServer.open(12345)
+
 hands = {
-  "g" => {"g" => "draw", "c" => "win", "p" => "lose"},
-  "c" => {"g" => "lose", "c" => "draw", "p" => "win"},
-  "p" => {"g" => "win", "c" => "lose", "p" => "draw"}
+  g: {g: "draw", c: "win", p: "lose"},
+  c: {g: "lose", c: "draw", p: "win"},
+  p: {g: "win", c: "lose", p: "draw"}
 }
 
 responses = {
-  "win" => "you won",
-  "lose" => "you lost",
-  "draw" => "again"
+  win: "you won",
+  lose: "you lost",
+  draw: "again"
 }
 
 loop do
@@ -20,7 +21,7 @@ loop do
   socket.puts("your hand?:  g or c or p\n")
 
   loop do
-    client_hand = socket.gets.gsub!(/[\r\n]/, "")
+    client_hand = socket.gets.gsub!(/[\r\n]/, "").intern
 
     if !hands.keys.include?(client_hand)
       socket.puts("hmmmm?")
@@ -29,7 +30,7 @@ loop do
       socket.puts("com's hand: #{server_hand}")
       result = hands[client_hand][server_hand]
 
-      socket.puts(responses[result])
+      socket.puts(responses[result.intern])
 
       if result == 'win' || result == 'lose'
         socket.close
